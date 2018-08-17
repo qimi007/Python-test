@@ -1,0 +1,15 @@
+
+在这个文件里面记录整个工程中出现的error及解决方案
+
+
+1.出现pygame包安装失败
+
+    解决方案：
+        1.在网站上下载对应的版本
+        https://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame
+        下载：pygame-1.9.4-cp37-cp37m-win_amd64.whl
+        2.然后通过在python 环境下命令：
+            pip install pygame-1.9.4-cp37-cp37m-win_amd64.whl
+         结果出现安装失败
+        3.这个直接在windows cmd环境下直接 pip install pygame-1.9.4-cp37-cp37m-win_amd64.whl
+        安装成功
