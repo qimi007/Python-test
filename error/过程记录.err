@@ -13,3 +13,65 @@
          结果出现安装失败
         3.这个直接在windows cmd环境下直接 pip install pygame-1.9.4-cp37-cp37m-win_amd64.whl
         安装成功
+
+
+2.在处理pygame事件的时候出现
+    Traceback (most recent call last):
+  File "E:/WorkSpace/Python/Python-test/src/main.py", line 23, in <module>
+    if event.type == QUIT:
+    NameError: name 'QUIT' is not defined
+
+    解决方案：
+    在程序中导入：
+    from pygame.locals import *
+
+    或者采用pygame.KEYDOWN的形式
+
+
+3."iccp known incorrect srgb profile" 警告的去除
+    解决方法：
+    1、直接改libpng的代码，这个其实很安逸，自己重新编译一下libpng的库就好了。虽然稍微麻烦了一点点，但是一点都不困难，而且一劳永逸。
+
+          而且就代码来说，除非导致png图片显示异常或者跨平台出现问题，否则都不应该莫名其妙的出现不必要的警告。
+
+    2、使用ImageMagick转换png图片。在这里下载ImageMagick。然后写个脚本转换所有png图片。
+
+    import os
+
+    CMD = r'D:\Program Files\ImageMagick-6.9.0-Q16\convert.exe'
+    SOURCE_PATH = r'E:\Code\res'
+
+    def doStrip(path):
+        data = {};
+        print(path)
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                name = file.lower();
+                if name.find('.png') != -1:
+                    path = os.path.join(root, file)
+                    os.system('"{0}" {1} -strip {1}'.format(CMD, path, path));
+
+
+    doStrip(SOURCE_PATH)
+
+4.用pygame绘制出的png 背景是黑色的
+    原因是 这个在获取surface对象时没有注意获取带有alpha通道
+    #这种方式即使是png图背景也是黑色的
+    pygame.image.load(self.feature).convert()
+    #用这种方式，即可显示带有透明背景的png
+    pygame.image.load(self.feature).convert_alpha()
+
+    参考：https://blog.csdn.net/zengxiantao1994/article/details/60334247/
+
+
+5.检测一个对象是否存在
+    python中使用hasattr(x,'call')来判断一个对象是否存在某个方法
+    class Person:
+    　　def PrintName(self):
+    　　　　print 'Is a Person'
+    　　def PrintHello(self):
+    　　　　print 'Hello, world'
+
+    per = Person()
+    per.PrintName()
+    print hasattr(per,'PrintName')#True
